@@ -1,0 +1,42 @@
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <!--表明以下的配置是针对session-factory配置的，SessionFactory是Hibernate中的一个类，这个类主要负责保存HIbernate的配置信息，以及对Session的操作-->     
+    <session-factory>   
+        <!-- 数据库连接信息： -->
+        <!-- mysql
+          <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver </property>     
+          <property name="hibernate.connection.url">jdbc:mysql://localhost：3306/dbname</property>      
+          <property name="hibernate.connection.username">root </property>     
+          <property name="hibernate.connection.password">123456 </property>   
+        -->
+          <!--hibernate.dialect 只是Hibernate使用的数据库方言,就是要用Hibernate连接那种类型的数据库服务器。-->     
+          <!--
+          <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect </property>   
+        -->
+
+        <!-- oracle -->
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url jdbc">oracle:thin:@localhost:1521:orclpdb</property>
+        <property name="hibernate.connection.username">zhanghua</property>
+        <property name="hibernate.connection.password">zhanghua</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.10gDialect</property>
+
+        <!-- sql输出设置 -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</prooperty>
+
+        <!-- 指定映射文件，可映射多个映射文件-->            
+        <!--
+        <mapping resource=""/>     
+        -->
+    </session-factory>  
+</hibernate-configuration>

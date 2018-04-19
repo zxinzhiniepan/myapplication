@@ -1,0 +1,14 @@
+#!/bin/bash
+BASEDIR=`pwd`
+RESOURCESDIR=/home/zhanghua/.opt/developments/java/resources
+echo "Please input name of project"
+read PROJECT
+PROJECTPATH=${BASEDIR}"/${PROJECT}"
+mkdir -p ${PROJECTPATH}/{documents/databases/{mysql,oracle},{src/{java,test,configs},lib/,document/,WebRoot/{WEB-INF/{classes,lib},doc,css,WebContent,dist,js,view,media/{images,audio,video}}}}
+cp ${RESOURCESDIR}/java/web/JQuery/jquery.js ${BASEDIR}/${PROJECT}/WebRoot/js/jquery.js
+cp ${RESOURCESDIR}/java/configs/ant/build.propery ${BASEDIR}/${PROJECT}
+cd  &
+echo -e "<?xml version = \"1.0\"?>\n<project name = \"${PROJECT}\" default = \"onejar\" basedir = \".\">" >> ${PROJECTPATH}/build.xml
+cat ${RESOURCESDIR}/java/configs/ant/buildtemp.xml >> ${PROJECTPATH}/build.xml
+cd ${PROJECTPATH}
+# mv build.xml ${PROJECTPATH}/ 

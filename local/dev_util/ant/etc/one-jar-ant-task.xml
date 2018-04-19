@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project basedir = "home/zhanghua/Learn/learnJava/java_core/stream_file/lib">
+    <!-- The following property is expected to be overridden by caller -->   
+    <property name="base.dir" value="/home/zhanghua/Learn/learnJava/java_core/stream_file/lib"/>   
+    <property name="one-jar.dist.dir" value="./dist"/>   
+    <property name="one-jar.version" value="0.97"/>
+    <property name="one-jar.ant.jar" value="one-jar-ant-task-${one-jar.version}.jar"/>
+    <taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask" 
+            classpath="${base.dir}/${one-jar.ant.jar}" onerror="report"/>
+</project>

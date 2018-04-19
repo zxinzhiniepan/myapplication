@@ -1,0 +1,9 @@
+{
+    "server":"67.216.215.106",
+    "server_port": 8888,
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "password":"meiyoumima",
+    "method": "chacha20",
+    "timeout":600
+}

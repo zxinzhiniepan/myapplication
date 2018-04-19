@@ -1,0 +1,100 @@
+<?xml version = "1.0"?>
+<project name = "stream_file" default = "onejar" basedir = ".">
+    <property file = "build.propery"/>
+<!--    
+    <property name = "onejar.dir" value = "/home/zhanghua/Learn/learnJava/java_core/stream_file/lib"/>
+    <import file="${onejar.dir}/one-jar-ant-task.xml" optional="true" /> 
+
+
+    <path id = "master-classes">
+        <fileset dir = "${buildlib.dir}">
+            <include name = "**/*.jar"/>
+        </fileset>
+        <pathelement path = "${build.dir}"/>
+    </path>
+-->
+
+    <target name = "mkdir" description = "">
+        <mkdir dir = "${src.dir}"/>
+        <mkdir dir = "${java.dir}"/>
+        <mkdir dir = "${test.dir}"/>
+        <mkdir dir = "${configs.dir}"/>
+        <mkdir dir = "${lib.dir}"/>
+        <mkdir dir = "${document.dir}"/>
+        <mkdir dir = "${webroot.dir}"/>
+        <mkdir dir = "${webinf.dir}"/>
+        <mkdir dir = "${build.dir}"/>
+        <mkdir dir = "${buildlib.dir}"/>
+        <mkdir dir = "${dist.dir}"/>
+        <mkdir dir = "${js.dir}"/>
+        <mkdir dir = "${css.dir}"/>
+        <mkdir dir = "${view.dir}"/>
+        <mkdir dir = "${images.dir}"/>
+    </target>
+
+<!--
+    <target name = "copy" depends = "mkdir" description = "">
+        <copy todir = "${buildlib.dir}">
+            <fileset dir = "${tools.dir}/tools">
+                <include name = "log4j*"/>
+            </fileset>
+        </copy>
+        <copy todir = "${buildlib.dir}">
+            <fileset dir = "${tools.dir}/my_tools"/>
+        </copy>
+        <!-- <copy todir = "${lib.dir}">
+          <fileset dir = "${tools.dir}/tools">
+              <include name = "one-jar*"/>
+              </fileset>
+          </copy> -->
+      --><!--
+        <unzip dest = "${lib.dir}">
+            <fileset dir = "${tools.dir}/tools">
+                <include name = "one-jar*"/>
+            </fileset>
+        </unzip>
+    </target>
+
+    <target name = "clean" description = "">
+        <delete>
+            <fileset dir = "${build.dir}">
+                <include name = "${**/*.class}"/>
+            </fileset>
+            <fileset dir = "${dist.dir}">
+                <include name = "**/*.jar"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name = "compile" depends = "clean" description = "">
+        <javac destdir = "${build.dir}">
+            <src path = "${java.dir}"/>
+            <classpath refid = "master-classes"/>
+        </javac>
+    </target>
+
+    <target name = "buildjar" depends = "compile" description = "">
+        <jar destfile = "${dist.dir}/${classname}.jar">
+            <manifest>
+                <attribute name = "Main-Class" value = "${package}.${classname}"/>
+            </manifest>
+            <zipgroupfileset dir = "${buildlib.dir}" includes = "**/*.jar" excludes = "META-INF"/>
+        </jar>
+    </target>
+
+    <target name = "onejar" depends = "compile" description = "">
+        <one-jar destfile = "${dist.dir}/${classname}.jar">
+            <manifest>
+                <attribute name = "One-Jar-Main-Class" value = "${package}.${classname}"/>
+            </manifest>
+            <main>
+                <fileset dir = "${build.dir}"/>
+            </main>
+            <lib>
+                <fileset dir = "${buildlib.dir}"/>
+            </lib>
+            <fileset dir = "${configs.dir}"/>
+        </one-jar>
+    </target>
+-->
+</project>

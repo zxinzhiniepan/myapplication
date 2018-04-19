@@ -1,0 +1,263 @@
+// gradle 插件
+plugins {
+    id 'java'
+        id 'war'  
+        id 'application'
+        id 'com.bmuschko.tomcat' version '2.4.2'
+}
+mainClassName='test.Test'
+
+// 仓库
+repositories {
+    jcenter()
+        mavenCentral()
+}
+
+// 依赖
+dependencies {
+    compile files('src/main/resources/configs')    // 编译时的环境
+    runtime files('src/main/resources/configs')    // 运行时的环境
+
+    // tomcat容器
+    def tomcatVersion = '9.0.1'
+        tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+               "org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2",
+               "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
+    // 日志记录
+    def log4jVersion = '2.10.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4jVersion}"
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4jVersion}"  // 日志记录
+
+    // web文件上传
+    def commonsIOVersion = '2.6'
+    compile group: 'commons-io', name: 'commons-io', version: "${commonsIOVersion}" //web文件上传IO
+
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    def commonsFileUploadVersion = '1.3.3'
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: "${commonsFileUploadVersion}" 
+
+    // 数据库mysql
+    def mysqlVersion = '5.1.44'
+    compile "mysql:mysql-connector-java:${mysqlVersion}"     // 连接数据库
+
+    // https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api
+    //providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.2-b02'
+
+    //jstl标准库
+    def taglibsStandardVersion='1.1.2'
+    // https://mvnrepository.com/artifact/taglibs/standard
+    compile group: 'taglibs', name: 'standard', version: "${taglibsStandardVersion}"
+
+    // servlet
+    def jstlVersion='1.2'
+    // https://mvnrepository.com/artifact/javax.servlet/jstl
+    compile group: 'javax.servlet', name: 'jstl', version: "${jstlVersion}"
+
+    // fastjson
+    def fastJsonVersion='1.2.44'
+    // https://mvnrepository.com/artifact/com.alibaba/fastjson
+    compile group: 'com.alibaba', name: 'fastjson', version: "${fastJsonVersion}"
+
+    // mybatis
+    def mybatisVersion='3.4.5'
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis
+    compile group: 'org.mybatis', name: 'mybatis', version: "${mybatisVersion}"
+
+    // 单元测试
+    testCompile("junit:junit:4.12")
+    testRuntime("org.junit.vintage:junit-vintage-engine:4.12.0")
+
+    // servlet
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0' 
+
+    // ************ Start **************
+    // spring 配置
+
+    // commos
+    // https://mvnrepository.com/artifact/commons-logging/commons-logging
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.2.0'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-pool2
+    compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.5.0'
+
+    // mybatis-spring
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.3.1'
+
+    // 切面编程
+    // https://mvnrepository.com/artifact/aopalliance/aopalliance
+    compile group: 'aopalliance', name: 'aopalliance', version: '1.0'
+
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.13'
+
+
+    def springVersion='5.0.4.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework/spring-core
+    compile group: 'org.springframework', name: 'spring-core', version: "${springVersion}"
+    // https://mvnrepository.com/artifact/org.springframework/spring-beans
+    compile group: 'org.springframework', name: 'spring-beans', version: "${springVersion}"
+    // https://mvnrepository.com/artifact/org.springframework/spring-context
+    compile group: 'org.springframework', name: 'spring-context', version: "${springVersion}"
+    // https://mvnrepository.com/artifact/org.springframework/spring-aop
+    compile group: 'org.springframework', name: 'spring-aop', version: "${springVersion}"
+    // https://mvnrepository.com/artifact/org.springframework/spring-expression
+    compile group: 'org.springframework', name: 'spring-expression', version: "${springVersion}"
+    // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+    compile group: 'org.springframework', name: 'spring-jdbc', version: "${springVersion}"
+    // https://mvnrepository.com/artifact/org.springframework/spring-tx
+    compile group: 'org.springframework', name: 'spring-tx', version: "${springVersion}"
+    // ************ End **************
+}
+
+// 打包
+jar{
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest{
+        attributes 'Main-Class':'hello.HelloWorld'
+    }
+}
+
+// 将xml文件加入Resources文件夹中
+processResources{
+    // 打包源码下的资源文件
+    from('src/main/java'){
+        include '**/*.xml'
+    }
+}
+
+// 控制台输入
+run{
+    standardInput = System.in
+}
+
+// tomcat 设置
+//tomcatRun.configFile = file("context.xml")
+tomcatRun.configFile = file("src/main/webapp/META-INF/context.xml")
+tomcatRun.outputFile = file("build/logs/tomcat/tomcat.log")
+
+tomcat{
+    //    tomcatRun.webDefaultXml = file("src/main/webapp/WEB-INF/web.xml")
+    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+        ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+        httpPort = 8090
+        httpsPort = 8091
+        ajpPort = 8095
+        stopPort = 8100
+
+        users{
+            user{
+                username = 'zhanghua'
+                    password = '123456'
+                    roles = ['developers', 'admin']
+            }
+        }
+}
+
+// tomcat end
+
+
+/* task */
+// 创建java项目src目录
+task createJavaProject {
+    doLast{
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs()}
+        println(1);
+    }
+}
+
+// 创建javaweb项目目录
+task createWebProject(dependsOn: 'createJavaProject') {
+    doLast{
+        def webAppDir = file("$webAppDirName")
+            webAppDir.mkdirs()
+            println(2);
+    }
+}
+// 初始化javaweb项目目录
+task initDir(type:Exec){
+    dependsOn 'createWebProject'
+        commandLine 'initWeb'
+        doLast{
+            println(3);
+        }
+}
+
+// 添加index.jsp文件
+task initWebProject(type:Exec) {
+    dependsOn 'initDir'
+        commandLine 'touch', 'src/main/webapp/index.jsp'
+        doLast{
+            println(4);
+        }
+}
+
+// 复制编译好的class文件
+task copyRelease {
+    // 删除相关信息
+    doFirst{
+        delete 'src/main/webapp/WEB-INF/classes'
+            println(5);
+    }
+
+    doLast{
+        copy
+        {
+            from 'src/main/java'
+                into 'src/main/webapp/WEB-INF/classes/src'
+        }
+        copy
+        {
+            from 'build/classes/java/main/resources/configs'
+                into 'src/main/webapp/WEB-INF/classes'
+        }
+        copy
+        {
+            from 'build/classes/java/main'
+                into 'src/main/webapp/WEB-INF/classes'
+        }
+        copy            // 复制运行时的jar包
+        {
+            from configurations.runtime
+                into 'src/main/webapp/WEB-INF/classes'
+                exclude '**/*.jar'
+        }
+        copy            // 复制运行时的jar包
+        {
+            from configurations.runtime
+                into 'src/main/webapp/WEB-INF/lib'
+                include '**/*.jar'
+        }
+        println(6);
+    }
+}
+
+// 软连接war文件到tomcat
+task webWarInit(type:Exec){
+    doFirst{
+        print("${rootProject.name}")
+            delete "/opt/tomcat/current-tomcat/webapps/${rootProject.name}.war"
+    }
+    commandLine 'ln', "-s", "${buildDir.path}/libs/${rootProject.name}.war", "/opt/tomcat/current-tomcat/webapps/${rootProject.name}.war"
+}
+
+task releaseWebWar(type:Exec){
+    //commandLine 'echo', "${buildDir.path}" //build 目录
+    commandLine 'createsite', "d", "${rootProject.name}"
+        doLast{
+            print(2);
+        }
+}
+
+//执行顺序与task之间的依赖关系
+releaseWebWar.dependsOn build
+releaseWebWar.dependsOn webWarInit
+releaseWebWar.dependsOn copyRelease
+webWarInit.mustRunAfter build
+releaseWebWar.mustRunAfter webWarInit
+copyRelease.mustRunAfter build

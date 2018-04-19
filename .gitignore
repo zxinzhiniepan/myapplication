@@ -1,0 +1,6 @@
+**/*.tar*
+*.tar*
+*.out
+**/XX-Net/*
+**/tmp/*
+local/custom_util/proxy/XX-Net/*

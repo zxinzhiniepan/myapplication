@@ -1,0 +1,44 @@
+    <property file = "build.propery"/>
+    <property name = "onejar.dir" value = "/home/zhanghua/.java/tools/one_jar/one_jar"/>
+    <import file="${onejar.dir}/one-jar-ant-task.xml" optional="true" /> 
+
+    <path id = "master-classes">
+        <fileset dir = "${buildlib.dir}">
+            <include name = "**/*.jar"/>
+        </fileset>
+        <pathelement path = "${build.dir}"/>
+    </path>
+
+    <target name = "mkdir" description = "">
+        <mkdir dir = "${src.dir}"/>
+        <mkdir dir = "${java.dir}"/>
+        <mkdir dir = "${test.dir}"/>
+        <mkdir dir = "${configs.dir}"/>
+        <mkdir dir = "${lib.dir}"/>
+        <mkdir dir = "${document.dir}"/>
+        <mkdir dir = "${webroot.dir}"/>
+        <mkdir dir = "${webinf.dir}"/>
+        <mkdir dir = "${build.dir}"/>
+        <mkdir dir = "${buildlib.dir}"/>
+        <mkdir dir = "${dist.dir}"/>
+        <mkdir dir = "${js.dir}"/>
+        <mkdir dir = "${css.dir}"/>
+        <mkdir dir = "${view.dir}"/>
+        <mkdir dir = "${images.dir}"/>
+    </target>
+
+    <target name = "init" description = "">
+    </target>
+
+    <target name = "clean" description = "">
+    </target>
+
+    <target name = "compile" depends = "clean" description = "">
+    </target>
+
+    <target name = "buildjar" depends = "compile" description = "">
+    </target>
+
+    <target name = "onejar" depends = "compile" description = "">
+    </target>
+</project>

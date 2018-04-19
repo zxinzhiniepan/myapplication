@@ -1,0 +1,7 @@
+#!/bin/bash
+synclient TapButton1=1            # 设置双指点击为鼠标左键
+synclient TapButton2=3            # 设置双指点击为鼠标右键
+synclient TapButton3=2            # 设置三指为鼠标中建点击
+synclient PalmDetect=1            #避免手掌触发触摸板
+synclient PalmMinWidth=3          #认定为手掌的最小宽度
+synclient PalmMinZ=200            #认定为手掌的最小压力值

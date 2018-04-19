@@ -1,0 +1,206 @@
+// gradle 插件
+plugins {
+    id 'java'
+        id 'war'  
+        id 'application'
+        id 'com.bmuschko.tomcat' version '2.4.2'
+}
+mainClassName='test.Test'
+
+// 仓库
+repositories {
+    jcenter()
+        mavenCentral()
+}
+
+// 依赖
+dependencies {
+    def tomcatVersion = '9.0.1'
+    def log4jVersion = '2.9.1'
+    def mysqlVersion = '5.1.44'
+    def commonsIOVersion = '2.6'
+    def commonsFileUploadVersion = '1.3.3'
+        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4jVersion}"
+        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4jVersion}"  // 日志记录
+        compile group: 'commons-io', name: 'commons-io', version: "${commonsIOVersion}" //web文件上传IO
+        // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+        // web文件上传
+        compile group: 'commons-fileupload', name: 'commons-fileupload', version: "${commonsFileUploadVersion}" 
+
+        compile "mysql:mysql-connector-java:${mysqlVersion}"     // 连接数据库
+
+        compile files('src/main/resources/configs')    // 编译时的环境
+        runtime files('src/main/resources/configs')    // 运行时的环境
+
+        testCompile("junit:junit:4.12")
+        testRuntime("org.junit.vintage:junit-vintage-engine:4.12.0")
+        tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+               "org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2",
+               "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+                   providedCompile 'javax.servlet:javax.servlet-api:3.1.0' 
+                   testCompile 'junit:junit:4.12'
+}
+
+// 打包
+jar{
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest{
+        attributes 'Main-Class':'hello.HelloWorld'
+    }
+}
+
+// 控制台输入
+run{
+    standardInput = System.in
+}
+
+// tomcat 设置
+//tomcatRun.configFile = file("context.xml")
+tomcatRun.configFile = file("src/main/webapp/META-INF/context.xml")
+tomcatRun.outputFile = file("build/logs/tomcat/tomcat.log")
+
+tomcat{
+    //    tomcatRun.webDefaultXml = file("src/main/webapp/WEB-INF/web.xml")
+    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+    httpPort = 8090
+    httpsPort = 8091
+    ajpPort = 8095
+    stopPort = 8100
+
+    users{
+        user{
+            username = 'zhanghua'
+                password = '123456'
+                roles = ['developers', 'admin']
+        }
+    }
+}
+
+// tomcat end
+
+
+/* task */
+// 创建java项目src目录
+task createJavaProject {
+    doLast{
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs()}
+        println(1);
+    }
+}
+
+// 创建javaweb项目目录
+task createWebProject(dependsOn: 'createJavaProject') {
+    doLast{
+        def webAppDir = file("$webAppDirName")
+            webAppDir.mkdirs()
+            println(2);
+    }
+}
+// 初始化javaweb项目目录
+task initDir(type:Exec){
+    dependsOn 'createWebProject'
+        commandLine 'initWeb'
+        doLast{
+            println(3);
+        }
+}
+
+// 添加index.jsp文件
+task initWebProject(type:Exec) {
+    dependsOn 'initDir'
+        commandLine 'touch', 'src/main/webapp/index.jsp'
+        doLast{
+            println(4);
+        }
+}
+
+// release web application
+//task deleteRelease {
+//    doLast{
+//        delete 'src/main/webapp/WEB-INF/classes'
+//            println(5);
+//    }
+//}
+
+// 复制编译好的class文件
+task copyRelease {
+    doFirst{
+        delete 'src/main/webapp/WEB-INF/classes'
+            println(5);
+    }
+
+    doLast{
+        copy
+        {
+            from 'src/main/java'
+                into 'src/main/webapp/WEB-INF/classes/src'
+        }
+        copy
+        {
+            from 'build/classes/java/main/resources/configs'
+                into 'src/main/webapp/WEB-INF/classes'
+        }
+        copy
+        {
+            from 'build/classes/java/main'
+                into 'src/main/webapp/WEB-INF/classes'
+        }
+        copy            // 复制运行时的jar包
+        {
+            from configurations.runtime
+                into 'src/main/webapp/WEB-INF/classes'
+                exclude '**/*.jar'
+        }
+        copy            // 复制运行时的jar包
+        {
+            from configurations.runtime
+                into 'src/main/webapp/WEB-INF/lib'
+                include '**/*.jar'
+        }
+        println(6);
+    }
+}
+
+// 发布web项目应用到tomcat服务器
+task releaseWeb(type:Exec){
+    workingDir 'src/main/webapp/'
+    commandLine 'createsite'
+    doLast{
+        println(7);
+    }
+}
+//
+//copyRelease.dependsOn deleteRelease
+releaseWeb.dependsOn copyRelease
+releaseWeb.dependsOn build
+copyRelease.mustRunAfter build
+
+// 软连接war文件到tomcat
+ task webWarInit(type:Exec){
+    doFirst{
+        print("${rootProject.name}")
+        delete "/opt/tomcat/current-tomcat/webapps/${rootProject.name}.war"
+    }
+    commandLine 'ln', "-s", "${buildDir.path}/libs/${rootProject.name}.war", "/opt/tomcat/current-tomcat/webapps/${rootProject.name}.war"
+}
+
+task releaseWebWar(type:Exec){
+        //commandLine 'echo', "${buildDir.path}" //build 目录
+    commandLine 'createsite', "d", "${rootProject.name}"
+    doLast{
+        print(2);
+    }
+}
+
+releaseWebWar.dependsOn build
+releaseWebWar.dependsOn webWarInit
+releaseWebWar.dependsOn copyRelease
+webWarInit.mustRunAfter build
+releaseWebWar.mustRunAfter webWarInit
+copyRelease.mustRunAfter build
+
+//releaseWeb.mustRunAfter build
+//releaseWeb.dependsOn build
+//copyRelease.

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+case $1 in 
+    "d")
+        chromium http://localhost:8080/$2/
+        exit
+        ;;
+esac;
+echo ${MAINDIR}
+if [ ! -n "$1" ];then
+    echo `pwd`
+else
+    cd $1
+    echo `pwd`
+fi
+
+MAINDIR=`pwd`
+cd ../../../
+SHORTDIR=`pwd`
+echo ${SHORTDIR}
+APPURL=`ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:"`
+
+PROJECT=`basename ${SHORTDIR}`
+echo ${PROJECT}
+if [ ! -f "${CATALINA_BASE}/webapps/${PROJECT}" ];then
+    rm ${CATALINA_BASE}/webapps/${PROJECT} && \
+        echo "success"
+fi
+echo ${MAINDIR}
+echo ${CATALINA_BASE}/webapps/${PROJECT}
+case $1 in 
+    *)
+        ln -s ${MAINDIR} ${CATALINA_BASE}/webapps/${PROJECT}
+        ;;
+    "d")
+        ;;
+esac;
+chromium http://localhost:8080/${PROJECT}/
+# chromium http://${APPURL}:8080/${PROJECT}/
+# echo "已打开网站"

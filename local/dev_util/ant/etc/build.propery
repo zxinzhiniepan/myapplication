@@ -1,0 +1,21 @@
+package=package
+classname=Test
+
+src.dir= src
+java.dir=${src.dir}/java
+test.dir=${src.dir}/test
+configs.dir=${src.dir}/configs
+lib.dir=lib
+document.dir=document
+webroot.dir=WebRoot
+webinf.dir=${webroot.dir}/WEB-INF
+build.dir=${webinf.dir}/classes
+buildlib.dir=${webinf.dir}/lib
+dist.dir=${webroot.dir}/dist
+js.dir=${webroot.dir}/js
+css.dir=${webroot.dir}/css
+view.dir=${webroot.dir}/view
+images.dir=${webroot.dir}/images
+tools.dir=/home/zhanghua/.java/tools
+mytools.dir=/home/zhanghua/.java/my_tools
+toolsconfigs=/home/zhanghua/.java/configs/log4j

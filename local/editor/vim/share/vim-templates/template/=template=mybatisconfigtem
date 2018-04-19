@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 引入java中引入的属性配置文件文件 -->
+    <properties resource="configs/database.properties">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/smbms?usrSSL=false"/>
+        <property name="user" value="zhanghua"/>
+        <property name="password" value="123456"/>
+    </properties>
+
+    <!-- setting设置: mybatis运行时的行为方式 -->
+    <settings>
+        <!-- 日志实现 -->
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+
+    <!-- 设置java类型的别名 -->
+    <typeAliases>
+        <!--
+        <typeAlias alias="User" type="cn.smbms.pojo.User"/>
+        <typeAlias alias="Provider" type="cn.smbms.pojo.Provider"/>
+        <typeAlias alias="Role" type="cn.smbms.pojo.Role"/>
+        <typeAlias alias="Bill" type="cn.smbms.pojo.Bill"/>
+        -->
+        <!-- 指定一个包名该包下的java Bean将自动生成(有注解的用注解的别名<不区分大小写>) -->
+        <package name="cn.smbms.pojo"/>
+    </typeAliases>
+
+    <!-- 类型处理器: 取值或者传参时类型处理器会将所属的值转化为相应的java类型 -->
+    <typeHandlers>
+    </typeHandlers>
+
+    <!-- 对象空间 -->
+    <!--
+    <objectFactory type="org.mybatis.example.ExampleObejectFactory">
+        <property name="someProperty" value="100"/>
+    </objectFactory>
+    -->
+    
+    <!-- mybatis插件: 在已经映射语句执行过程中的某一点进行拦截调用 -->
+    <!--
+    <plugins>
+      <plugin interceptor="org.mybatis.example.ExamplePlugin">
+          <property name="someProperty" value="100"/>
+       </plugin>
+    </plugins>
+    -->
+
+    <!-- 设置环境 -->
+    <environments default="dev">
+        <environment id ="dev">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="JDBC">
+            </transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 对不同的数据库的支持 -->
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>        
+        <property name="Oracle" value="oracle" />
+    </databaseIdProvider>
+
+    <!-- 映射器 -->
+    <mappers>
+        <!-- 使用classpath来注册Mapper -->
+        <!--
+        <mapper resource="cn/smbms/dao/user/UserMapper.xml"/>
+        -->
+
+        <!-- 使用url全路径来注册mapper -->
+        <!--
+        <mapper url="file:///home/zhanghua/learn/language/learnJava/book8/mybatis_unit1/src/main/java/cn/smbms/dao/user/UserMapper.xml"/>
+        -->
+
+        <!-- 使用mapper接口来注册 -->
+        <!--
+        <mapper class="cn.smbms.dao.user.UserMapper"/>
+        -->
+
+        <!-- 注册某个包下的所有接口(包括其下的所有子包中的接口) -->
+        <package name="cn.smbms.dao.user"/>
+    </mappers>
+</configuration>

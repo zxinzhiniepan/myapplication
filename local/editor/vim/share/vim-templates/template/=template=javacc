@@ -1,0 +1,11 @@
+/**
+ * %FFILE%
+ * @author 张家坤
+ * @since %YEAR%-%MONTH%-%DAY%
+ * @version
+ */
+
+public class %FILE%
+{
+    %HERE%
+}

@@ -1,0 +1,2 @@
+#!/bin/bash
+source /opt/myapplication/local/dev_util/java/bin/createJava.sh
