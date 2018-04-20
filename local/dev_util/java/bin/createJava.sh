@@ -1,6 +1,6 @@
 #!/bin/bash
 BASEDIR=`pwd`
-echo "Please input name of project"
+# echo "Please input name of project"
 PROJECT=$1
 echo $1
 PROJECTPATH=${BASEDIR}"/${PROJECT}"
@@ -22,7 +22,7 @@ case $2 in
     ;;
 esac
 # 创建index
-#gradle iWP
+gradle iWP
 
 #不创建index
 #case $3 in

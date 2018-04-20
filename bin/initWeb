@@ -7,7 +7,7 @@ JAVA_SHARE_HOME=/opt/myapplication/local/dev_util/java
 #mkdir -p src/main/{resources/configs,webapp/{doc,css,WebContent,META-INF,WEB-INF/{classes,lib},js,error,media/{images,audio,video}}}
 #cp ${RESOURCESDIR}/java/web/JQuery/jquery.js src/main/webapp/js/jquery.js
 #cp ${RESOURCESDIR}/java/configs/tomcat/web.xml src/main/webapp/WEB-INF/web.xml
-mkdir -p src/main/{resources/configs,webapp/WEB-INF/}
+mkdir -p {configuration,src/main/{resources/configs,webapp/WEB-INF/}}
 cp $LOG4J_HOME/etc/log4j2.xml src/main/resources/configs/
 cp $JAVA_SHARE_HOME/share/web-inf/web.xml src/main/webapp/WEB-INF/web.xml
 # cp ${RESOURCESDIR}/java/configs/tomcat/context.xml src/main/webapp/META-INF/context.xml

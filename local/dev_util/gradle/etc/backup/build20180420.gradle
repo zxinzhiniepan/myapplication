@@ -249,22 +249,39 @@ gretty {
 
 /********************* task *********************/
 /******************** 创建java web项目目录结构 ********************/
-// 初始化javaweb项目目录
-task initWebProject(type:Exec) {
-    commandLine 'ls';
-    doFirst{
-        // 创建java项目src目录
-        sourceSets*.java.srcDirs*.each{it.mkdirs()};
-        sourceSets*.resources.srcDirs*.each{it.mkdirs()};
-        file("$webAppDirName").mkdirs();
-        println("[INFO]Create direcotory of source");
-    }
+// 创建java项目src目录
+task createJavaProject {
     doLast{
-        commandLine 'initWeb';
-        println("[INFO]initial directory of source");
-        commandLine 'touch', 'src/main/webapp/index.jsp'
-        println("[INFO]Add index.jsp");
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs()}
+        println("Create directory of resource and src");
     }
+}
+
+// 创建javaweb项目目录
+task createWebProject(dependsOn: 'createJavaProject') {
+    doLast{
+        def webAppDir = file("$webAppDirName")
+            webAppDir.mkdirs()
+            println("Create direcotory of web");
+    }
+}
+// 初始化javaweb项目目录
+task initDir(type:Exec){
+    dependsOn 'createWebProject'
+        commandLine 'initWeb'
+        doLast{
+            println("Create directory of web");
+        }
+}
+
+// 添加index.jsp文件
+task initWebProject(type:Exec) {
+    dependsOn 'initDir'
+        commandLine 'touch', 'src/main/webapp/index.jsp'
+        doLast{
+            println("Add index.jsp");
+        }
 }
 /******************** 创建java web项目目录结构 ********************/
 

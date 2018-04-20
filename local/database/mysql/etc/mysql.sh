@@ -2,6 +2,7 @@ MYSQLDIR=/opt/mybin/mysql/mysql5721
 export  PATH=${PATH}:${MYSQLDIR}/bin
 alias mysqlstart="sudo rc-service mysql.server start"
 alias mysqlstop="sudo rc-service mysql.server stop"
+alias mysqlstatus="sudo rc-service mysql.server status"
 # alias mysqllogin="mysql -uroot -p93o721"
 # export  CATALINA_HOME=/usr/local/lib64/apache-tomcat-9.0.1
 # alias creatsite="~/.usr/tomcat/creatsite"
