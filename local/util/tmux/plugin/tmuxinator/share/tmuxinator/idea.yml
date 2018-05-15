@@ -1,8 +1,7 @@
-# ~/.tmuxinator/webproject.yml
+# ~/.tmuxinator/idea.yml
 
-name: webproject
+name: idea
 root: ./
-# root: /home/zhanghua/work/T232项目一组/hua/jianbook
 
 # 设置为256色
 tmux_options: -2
@@ -52,9 +51,9 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - cd src/test/java && clear # vim
-        - clear # cd /home/zhanghua/Learn/learnJava/book7 && clear && ls -aclear
-        - clear
+        - # cd src/test/java && clear # vim
+        - # clear # cd /home/zhanghua/Learn/learnJava/book7 && clear && ls -aclear
+        - # clear
 
   - sql:
       layout: 4e0d,170x42,0,0[170x36,0,0{40x36,0,0,3,129x36,41,0,5},170x5,0,37,6]
@@ -62,9 +61,9 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - cd configuration/ && clear # vim
-        - cd configuration/ && clear
-        - clear
+        - # cd configuration/ && clear # vim
+        - # cd configuration/ && clear
+        - # clear
 
   - webdesign:
       layout: 157c,239x61,0,0[240x40,0,0{123x40,0,0,1,116x40,124,0,6},240x21,0,41,7]

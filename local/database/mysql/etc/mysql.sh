@@ -1,4 +1,4 @@
-MYSQLDIR=/opt/mybin/mysql/mysql5721
+MYSQLDIR=/opt/mybin/mysql/mysql8011
 export  PATH=${PATH}:${MYSQLDIR}/bin
 alias mysqlstart="sudo rc-service mysql.server start"
 alias mysqlstop="sudo rc-service mysql.server stop"

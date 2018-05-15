@@ -45,18 +45,18 @@ function createJava() {
         # 判断是否创建接口
         if [[ $CHOOSE =~ "-" && $CHOOSE =~ "i" ]]; then
             # 是接口
-            echo -e "public interface ${CLASSNAME}\n{\n\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
+            echo -e "public interface ${CLASSNAME}{\n\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
         else 
             if [[ $CHOOSE =~ "-" && $CHOOSE =~ "a" ]]; then    
                 # 抽象类
-                echo -e "public abstract class ${CLASSNAME}\n{\n\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
+                echo -e "public abstract class ${CLASSNAME}{\n\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
             else
                 if [[ $CHOOSE =~ "-" && $CHOOSE =~ "m" ]]; then    
                     # 带main函数的
-                    echo -e "public class ${CLASSNAME}\n{\n\tpublic static void main(String[] args)\n\t{\n\n\t}\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
+                    echo -e "public class ${CLASSNAME}{\n\tpublic static void main(String[] args){\n\t\n\t}\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
                 else
                     # 普通类
-                    echo -e "public class ${CLASSNAME}\n{\n\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
+                    echo -e "public class ${CLASSNAME}{\n\n}" >> ${PACKAGEPATH}/${CLASSNAME}.java
                 fi
             fi
         fi
