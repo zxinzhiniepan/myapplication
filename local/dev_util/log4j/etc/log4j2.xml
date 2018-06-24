@@ -6,7 +6,9 @@
     <!--一些共用属性-->
     <properties>
         <!-- 日志保存路径 -->
-        <property name = "file.savepath">./logs</property>
+        <!--将日志输出到tomcat中的logs目录中-->
+        <property name = "file.savepath">../logs/o2o</property>
+        <!--<property name = "file.savepath">${web:contextPath}/logs</property>-->
         <property name = "console.pattern">%highlight{[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%thread] [%-5p] - %l - %msg%n}{STYLE=Logback}</property>
         <property name = "file.pattern">[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%t] [%-5p] - %l - %m%n</property>
     </properties>
@@ -28,8 +30,8 @@
         <!-- 这个会打印出所有的debug-月份建立的文件夹下面并进行压缩，作为存档-->
         <!--    <RollingFile name="RollingFileInfo" fileName="${sys:user.home}/logs/info.log"
                          filePattern="${sys:user.home}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">  -->
-        <RollingFile name="RollingFileDebug" fileName="${file.savepath}/debug.log"
-            filePattern="${file.savepath}/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="RollingFileDebug" fileName="${web:rootDir}/debug.log"
+            filePattern="${file.savepath}/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${file.pattern}"/>
@@ -41,7 +43,7 @@
 
         <!-- 这个会打印出所有的info-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="RollingFileInfo" fileName="${file.savepath}/info.log"
-            filePattern="${file.savepath}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            filePattern="${file.savepath}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${file.pattern}"/>
@@ -55,7 +57,7 @@
         <!-- <RollingFile name="RollingFileError" fileName="${sys:user.home}/logs/error.log"
               filePattern="${sys:user.home}/logs/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log"> -->
         <RollingFile name="RollingFileError" fileName="${file.savepath}/error.log"
-            filePattern="${file.savepath}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            filePattern="${file.savepath}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${file.pattern}"/>
             <Policies>
@@ -67,7 +69,7 @@
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
-        <logger name="org.springframework" level="DEBUG"></logger>
+        <logger name="org.springframework" level="WARN"></logger>
         <logger name="org.mybatis" level="DEBUG"></logger>
         <logger name="com.xinzhiniepan.o2o" level="DEBUG"/>
         <root level="all">
