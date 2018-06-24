@@ -10,7 +10,7 @@ export MY_SCRIPT_PATH=/opt/bin/script
 export PATH=$PATH:$MY_APPLICATION_HOME/bin:$MY_SCRIPT_PATH
 
 # tmux
-source $HOME/.tmuxinator/.tmuxinator.zsh
+source /home/zhanghua/.tmuxinator/.tmuxinator.zsh
 
 # jdk
 source $MY_APPLICATION_HOME/local/dev_util/java/etc/java_path.sh

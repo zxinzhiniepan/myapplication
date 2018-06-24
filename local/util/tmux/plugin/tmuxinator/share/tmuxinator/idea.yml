@@ -51,7 +51,7 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - # cd src/test/java && clear # vim
+        - cd src/test/java && clear # vim
         - # clear # cd /home/zhanghua/Learn/learnJava/book7 && clear && ls -aclear
         - # clear
 
