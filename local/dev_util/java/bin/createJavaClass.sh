@@ -16,9 +16,8 @@ function createJava() {
         PACKAGEPATH="."
         # 初始化
         echo "/**" >> /tmp/$JAVATEMP
-        echo " * @author xinzhiniepan" >> /tmp/$JAVATEMP
+        echo " * @author xinzhiniepan ${DATE}" >> /tmp/$JAVATEMP
         echo " * @version 1.0" >> /tmp/$JAVATEMP
-        echo " * @since ${DATE}" >> /tmp/$JAVATEMP
         echo " */" >> /tmp/$JAVATEMP
         echo " " >> /tmp/$JAVATEMP
     else
