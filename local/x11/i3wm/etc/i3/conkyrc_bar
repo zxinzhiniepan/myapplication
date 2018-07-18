@@ -12,6 +12,7 @@
 -- conky.text = [[
 --  ${upspeed enp2s0}/s  ${downspeed enp2s0}/s \
 --  ${upspeed wlp3s0}/s  ${downspeed wlp3s0}/s \
+--  ${upspeed enp2s0}/s ${downspeed enp2s0}/s \
 --  ${cpu cpu0}% \
 --  ${mem} \
 --  ${fs_used /} \
@@ -46,11 +47,11 @@ conky.config = {
 
 conky.text = [[
  ${upspeed wlp3s0}/s ${downspeed wlp3s0}/s \
- ${upspeed enp2s0}/s ${downspeed enp2s0}/s \
+ ${upspeed enp4s0}/s ${downspeed enp4s0}/s \
  ${cpu cpu0}% \
  ${mem} \
  ${fs_used /} \
  ${battery_percent}% \
- ${time %d %B %A} \
+ ${time %d %B %A} \
  ${time %H:%M} \
 ]]
